@@ -61,4 +61,4 @@ const handler = async (req) => {
     return createResp({error: "Bad Request"}, headersOBJ, 400);
 }
 
-Deno.serve({port: 8000}, handler);
+Deno.serve({port: 8000, hostname: "0.0.0.0"}, handler);

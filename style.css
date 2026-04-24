@@ -1,0 +1,40 @@
+@font-face {
+    font-family: special;
+    src: url(fonts/Special_Elite/SpecialElite-Regular.ttf);
+}
+
+body {
+    margin: 0;
+    height: 100dvh;
+    background-image: url(images/stairs.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: special;
+    color: red;
+    gap: 10px;
+    position: relative;
+}
+
+div {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 50px;
+    margin: 0;
+}
+
+p {
+    font-size: 20px;
+    margin: 0;
+}

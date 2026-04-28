@@ -64,5 +64,10 @@ const handler = async (req) => {
 
     return createResp({error: "Bad Request"}, headersOBJ, 400);
 }
+
+const shutdownHandler = () => { setTimeout(() => { Deno.exit(0); }, 100); }; 
+Deno.addSignalListener("SIGTERM", shutdownHandler); 
+Deno.addSignalListener("SIGINT", shutdownHandler);
+
 console.log("hej");
 Deno.serve({port: Deno.env.get("PORT")}, handler);

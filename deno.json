@@ -1,0 +1,17 @@
+{
+  "name": "Railway-Timer",
+  "version": "0.0.0",
+  "description": "blank",
+  "author": "me",
+  "license": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SnydenHjelm2/Railway-Timer"
+  },
+  "tasks": {
+    "start": "deno run --allow-net --allow-read --allow-write --allow-env main.js"
+  },
+  "imports": {
+  },
+  "exports": "./main.js"
+}

@@ -70,4 +70,4 @@ Deno.addSignalListener("SIGTERM", shutdownHandler);
 Deno.addSignalListener("SIGINT", shutdownHandler);
 
 console.log("hej");
-Deno.serve({port: Deno.env.get("PORT")}, handler);
+Deno.serve({port: 8000}, handler);

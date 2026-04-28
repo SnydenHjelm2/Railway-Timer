@@ -12,6 +12,10 @@ const handler = async (req) => {
     }
 
     const url = new URL(req.url);
+    if (url.pathname === "/test"){
+        console.log("test");
+        return new Response("hej");
+    }
 
     switch (req.method) {
         case "GET": {
@@ -60,5 +64,5 @@ const handler = async (req) => {
 
     return createResp({error: "Bad Request"}, headersOBJ, 400);
 }
-
+console.log("hej");
 Deno.serve({port: Deno.env.get("PORT"), hostname: "0.0.0.0"}, handler);

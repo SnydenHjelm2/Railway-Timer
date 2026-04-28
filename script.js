@@ -91,4 +91,4 @@ const timer = {
     }
 }
 
-timer.initiate();
+//timer.initiate();

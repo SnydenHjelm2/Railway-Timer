@@ -1,3 +1,5 @@
+import { serveFile } from "jsr:@std/http/file-server";
+
 const createResp = (data, headers, status = 200) => {
     return new Response(JSON.stringify(data), {status: status, headers: headers});
 }
@@ -12,29 +14,27 @@ const handler = async (req) => {
     }
 
     const url = new URL(req.url);
-    if (url.pathname === "/test"){
-        console.log("test");
-        return new Response("hej");
-    }
 
     switch (req.method) {
         case "GET": {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/time") {
-                let db = JSON.parse(Deno.readTextFileSync("../db/timer.json"));
+                let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 if (!db.started) return createResp({error: "Timer not started"}, headersOBJ, 400);
 
                 return createResp(db.startTime, headersOBJ, 200);
             } else if (url.pathname === "/started") {
-                let db = JSON.parse(Deno.readTextFileSync("../db/timer.json"));
+                let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 return createResp(db.started, headersOBJ, 200);
+            } else if (url.pathname === "/") {
+                return serveFile(req, "index.html");
             }
         }
 
         case "POST": {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/start") {
-                let db = JSON.parse(Deno.readTextFileSync("../db/timer.json"));
+                let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 if (db.started) return createResp({error: "Timer already started"}, headersOBJ, 400);
 
                 if (req.headers.get("content-type") !== "application/json") return createResp({error: "Invalid content-type"}, headersOBJ, 400);
@@ -43,7 +43,7 @@ const handler = async (req) => {
                 db.started = true;
                 db.startTime = reqBody.time;
 
-                Deno.writeTextFileSync("../db/timer.json", JSON.stringify(db));
+                Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer started!"}, headersOBJ, 200);
             }
         }
@@ -51,12 +51,12 @@ const handler = async (req) => {
         case "DELETE": {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/reset") {
-                let db = JSON.parse(Deno.readTextFileSync("../db/timer.json"));
+                let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 if (!db.started) return createResp({error: "Timer not started"}, headersOBJ, 400);
 
                 db.started = false;
                 db.startTime = "";
-                Deno.writeTextFileSync("../db/timer.json", JSON.stringify(db));
+                Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer reset"}, headersOBJ, 200);
             }
         }
@@ -69,5 +69,4 @@ const shutdownHandler = () => { setTimeout(() => { Deno.exit(0); }, 100); };
 Deno.addSignalListener("SIGTERM", shutdownHandler); 
 Deno.addSignalListener("SIGINT", shutdownHandler);
 
-console.log("hej");
 Deno.serve({port: 8000}, handler);

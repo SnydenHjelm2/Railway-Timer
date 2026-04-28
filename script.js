@@ -5,7 +5,7 @@ const req = {
             headers: {"content-type": "application/json"}
         }
         if (body) reqObj.body = JSON.stringify(body);
-        let resp = await fetch(`http://localhost:8000/${path}`, reqObj);
+        let resp = await fetch(`https://railway-timer-production.up.railway.app/${path}`, reqObj);
         return resp.json();
     }
 }

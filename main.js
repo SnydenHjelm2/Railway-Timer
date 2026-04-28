@@ -28,6 +28,12 @@ const handler = async (req) => {
                 return createResp(db.started, headersOBJ, 200);
             } else if (url.pathname === "/") {
                 return serveFile(req, "index.html");
+            } else if (url.pathname === "/style.css") {
+                return serveFile(req, "style.css");
+            } else if (url.pathname === "script.js") {
+                return serveFile(req, "script.js");
+            } else if (url.pathname === "icon.png") {
+                return serveFile(req, "images/icon.png");
             }
         }
 

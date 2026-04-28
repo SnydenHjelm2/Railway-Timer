@@ -1,4 +1,4 @@
-import { serveFile } from "jsr:@std/http/file-server";
+import { serveFile, serveDir } from "jsr:@std/http/file-server";
 
 const createResp = (data, headers, status = 200) => {
     return new Response(JSON.stringify(data), {status: status, headers: headers});
@@ -30,10 +30,18 @@ const handler = async (req) => {
                 return serveFile(req, "index.html");
             } else if (url.pathname === "/style.css") {
                 return serveFile(req, "style.css");
-            } else if (url.pathname === "script.js") {
+            } else if (url.pathname === "/script.js") {
                 return serveFile(req, "script.js");
-            } else if (url.pathname === "icon.png") {
-                return serveFile(req, "images/icon.png");
+            } else if (url.pathname.startsWith("/images")) {
+                return serveDir(req, {
+                    fsRoot: "images",
+                    urlRoot: "images"
+                });
+            } else if (url.pathname.startsWith("/fonts")) {
+                return serveDir(req, {
+                    fsRoot: "fonts",
+                    urlRoot: "fonts"
+                });
             }
         }
 

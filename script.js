@@ -39,7 +39,7 @@ const timer = {
 
     initiate: async () => {
         let started = await req.send("started", "GET");
-        if (!started) await timer.start();
+        if (!started) /*await timer.start()*/ return;
         let reso = await req.send("time", "GET");
         timer.startTime = parseInt(reso);
         timer.update();
@@ -88,4 +88,4 @@ const timer = {
     }
 }
 
-//timer.initiate();
+timer.initiate();

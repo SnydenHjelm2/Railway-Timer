@@ -53,10 +53,7 @@ const timer = {
     p: document.querySelector("p"),
 
     start: async () => {
-        let now = Date.now();
-        let reso = await req.send("start", "POST", {
-            time: now.toString()
-        });
+        let reso = await req.send("start", "POST");
         if (reso.error) return "Timer already started!";
         return "Timer started!";
     },

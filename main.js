@@ -51,11 +51,8 @@ const handler = async (req) => {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 if (db.started) return createResp({error: "Timer already started"}, headersOBJ, 400);
 
-                if (req.headers.get("content-type") !== "application/json") return createResp({error: "Invalid content-type"}, headersOBJ, 400);
-                let reqBody = await req.json();
-                if (!reqBody.time) return createResp({error: "Missing attributes"}, headersOBJ, 400);
                 db.started = true;
-                db.startTime = reqBody.time;
+                db.startTime = Date.now();
 
                 Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer started!"}, headersOBJ, 200);

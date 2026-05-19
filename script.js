@@ -78,7 +78,7 @@ const timer = {
         if (!timer.startTime) return "Timer not started!";
 
         let elapsed = timer.elapsed();
-        let timeLeft = 10800000 - elapsed;
+        let timeLeft = 9000000 - elapsed;
         if (timeLeft <= 0) {
             await timer.stop("finished");
             return;
@@ -87,5 +87,5 @@ const timer = {
         timer.convert(timeLeft);
     }
 }
-
+timer.convert(9000000);
 timer.initiate();

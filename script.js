@@ -55,6 +55,7 @@ const timer = {
     start: async () => {
         let reso = await req.send("start", "POST");
         if (reso.error) return "Timer already started!";
+        await timer.initiate();
         return "Timer started!";
     },
 
@@ -68,9 +69,8 @@ const timer = {
             timer.p.innerHTML = "Tiden är inne, det ska bli vi igen...<br>Tack för att ni spelade!";
             return;
         }
-        timer.h1.textContent = "03:00:00";
-        timer.p.textContent = "...";
-        document.title = "03:00:00 left...";
+        timer.convert(9000000);
+        document.querySelector("p").textContent = "...";
         return "Timer stopped!";
     },
 

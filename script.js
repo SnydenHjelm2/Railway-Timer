@@ -39,13 +39,21 @@ const timer = {
 
     initiate: async () => {
         let started = await req.send("started", "GET");
-        if (!started) /*await timer.start()*/ return;
-        let reso = await req.send("time", "GET");
-        timer.startTime = parseInt(reso);
+        let time = await req.send("time", "GET");
+        if (!started) {
+            if (time.error) {
+                timer.convert(9000000);
+                return;
+            } else {
+                timer.convert(parseInt(time));
+                return;
+            }
+        }
+        timer.startTime = parseInt(time);
         timer.update();
         timer.interval = setInterval(timer.update, 1000);
         timer.p.textContent = "Klockan tickar...";
-        return true;
+        return;
     },
 
     interval: null,
@@ -69,7 +77,6 @@ const timer = {
             timer.p.innerHTML = "Tiden är inne, det ska bli vi igen...<br>Tack för att ni spelade!";
             return;
         }
-        timer.convert(9000000);
         document.querySelector("p").textContent = "...";
         return "Timer stopped!";
     },
@@ -87,5 +94,4 @@ const timer = {
         timer.convert(timeLeft);
     }
 }
-timer.convert(9000000);
 timer.initiate();

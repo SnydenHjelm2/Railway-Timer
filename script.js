@@ -41,7 +41,7 @@ const timer = {
         let started = await req.send("started", "GET");
         let time = await req.send("time", "GET");
         if (!started) {
-            if (time.error) {
+            if (!time) {
                 timer.convert(9000000);
                 return;
             } else {
@@ -59,6 +59,10 @@ const timer = {
     interval: null,
 
     p: document.querySelector("p"),
+
+    reset: async () => {
+        let reso = await req.send("reset", "DELETE", {time: ""});
+    },
 
     start: async () => {
         let reso = await req.send("start", "POST");

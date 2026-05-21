@@ -20,7 +20,6 @@ const handler = async (req) => {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/time") {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
-                if (!db.started) return createResp({error: "Timer not started"}, headersOBJ, 400);
 
                 return createResp(db.startTime, headersOBJ, 200);
             } else if (url.pathname === "/started") {
@@ -63,6 +62,10 @@ const handler = async (req) => {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/reset") {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
+                let reqBody = await req.json();
+
+                if (reqBody.time) db.startTime = reqBody.time;
+
                 if (!db.started) return createResp({error: "Timer not started"}, headersOBJ, 400);
 
                 db.started = false;

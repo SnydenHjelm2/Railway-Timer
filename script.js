@@ -50,6 +50,7 @@ const timer = {
                 startTime = parseInt(startTime);
 
                 timer.convert(9000000 - (stopTime - startTime));
+                return;
             }
         }
         timer.startTime = parseInt(startTime);

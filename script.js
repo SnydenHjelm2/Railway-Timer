@@ -39,17 +39,20 @@ const timer = {
 
     initiate: async () => {
         let started = await req.send("started", "GET");
-        let time = await req.send("time", "GET");
+        let startTime = await req.send("time", "GET");
         if (!started) {
-            if (!time) {
+            if (!startTime) {
                 timer.convert(9000000);
                 return;
             } else {
-                timer.convert(parseInt(time));
-                return;
+                let stopTime = await req.send("stopTime", "GET");
+                stopTime = parseInt(stopTime);
+                startTime = parseInt(startTime);
+
+                timer.convert(9000000 - (stopTime - startTime));
             }
         }
-        timer.startTime = parseInt(time);
+        timer.startTime = parseInt(startTime);
         timer.update();
         timer.interval = setInterval(timer.update, 1000);
         timer.p.textContent = "Klockan tickar...";

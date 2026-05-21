@@ -20,8 +20,10 @@ const handler = async (req) => {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/time") {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
-
                 return createResp(db.startTime, headersOBJ, 200);
+            } else if (url.pathname === "/stopTime") {
+                let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
+                return createResp(db.stopTime, headersOBJ, 200);
             } else if (url.pathname === "/started") {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 return createResp(db.started, headersOBJ, 200);
@@ -52,6 +54,7 @@ const handler = async (req) => {
 
                 db.started = true;
                 db.startTime = Date.now();
+                db.stopTime = "";
 
                 Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer started!"}, headersOBJ, 200);
@@ -68,12 +71,14 @@ const handler = async (req) => {
                 }
 
                 db.started = false;
+                db.stopTime = Date.now();
                 Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer stopped"}, headersOBJ, 200);
             } else if (url.pathname === "/hard-reset") {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
                 let reqBody = await req.json();
                 db.startTime = reqBody.time;
+                db.stopTime = reqBody.time;
                 return createResp({success: "Timer reset"}, headersOBJ, 200);
             }
         }

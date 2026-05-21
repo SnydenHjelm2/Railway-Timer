@@ -66,6 +66,8 @@ const timer = {
 
     reset: async () => {
         let reso = await req.send("hard-reset", "DELETE", {time: ""});
+        timer.convert(9000000);
+        return reso;
     },
 
     start: async () => {

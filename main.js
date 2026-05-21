@@ -79,6 +79,7 @@ const handler = async (req) => {
                 let reqBody = await req.json();
                 db.startTime = reqBody.time;
                 db.stopTime = reqBody.time;
+                Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer reset"}, headersOBJ, 200);
             }
         }

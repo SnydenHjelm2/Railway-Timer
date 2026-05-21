@@ -62,15 +62,19 @@ const handler = async (req) => {
             headersOBJ.set("Content-Type", "application/json");
             if (url.pathname === "/reset") {
                 let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
-                let reqBody = await req.json();
 
-                if (reqBody.time) db.startTime = reqBody.time;
-
-                if (!db.started) return createResp({error: "Timer not started"}, headersOBJ, 400);
+                if (!db.started) {
+                    return createResp({error: "Timer not started"}, headersOBJ, 400);
+                }
 
                 db.started = false;
                 Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
                 return createResp({success: "Timer stopped"}, headersOBJ, 200);
+            } else if (url.pathname === "/hard-reset") {
+                let db = JSON.parse(Deno.readTextFileSync("./db/timer.json"));
+                let reqBody = await req.json();
+                db.startTime = reqBody.time;
+                return createResp({success: "Timer reset"}, headersOBJ, 200);
             }
         }
     }

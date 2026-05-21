@@ -61,7 +61,7 @@ const timer = {
     p: document.querySelector("p"),
 
     reset: async () => {
-        let reso = await req.send("reset", "DELETE", {time: ""});
+        let reso = await req.send("hard-reset", "DELETE", {time: ""});
     },
 
     start: async () => {

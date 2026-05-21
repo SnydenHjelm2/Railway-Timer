@@ -93,6 +93,8 @@ const timer = {
 
     update: async () => {
         if (!timer.startTime) return "Timer not started!";
+        let stopTime = await req.send("stopTime", "GET");
+        if (stopTime) window.location.reload();
 
         let elapsed = timer.elapsed();
         let timeLeft = 9000000 - elapsed;

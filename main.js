@@ -66,9 +66,8 @@ const handler = async (req) => {
                 if (!db.started) return createResp({error: "Timer not started"}, headersOBJ, 400);
 
                 db.started = false;
-                db.startTime = "";
                 Deno.writeTextFileSync("./db/timer.json", JSON.stringify(db));
-                return createResp({success: "Timer reset"}, headersOBJ, 200);
+                return createResp({success: "Timer stopped"}, headersOBJ, 200);
             }
         }
     }

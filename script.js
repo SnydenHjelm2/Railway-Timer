@@ -48,6 +48,7 @@ const timer = {
                 let stopTime = await req.send("stopTime", "GET");
                 stopTime = parseInt(stopTime);
                 startTime = parseInt(startTime);
+                timer.p.innerHTML = "Bra jobbat! Ni lyckades stoppa August!<br>Tack för att ni spelade!";
 
                 timer.convert(9000000 - (stopTime - startTime));
                 return;
